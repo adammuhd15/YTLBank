@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 // Local imports
 import PinPadScreen from "../screens/unauth/PinPadScreen";
-import ProfileScreen from "../screens/auth/ProfileScreen";
+import MainStackNavigator from "../navigation/stacks/MainStackNavigator";
 import { RootState } from "../redux/store";
 
 const AppNavigator = () => {
@@ -12,7 +12,7 @@ const AppNavigator = () => {
     <>
       {isAuth
         ? (
-          <ProfileScreen />
+          <MainStackNavigator />
         )
         : (
           <PinPadScreen />
