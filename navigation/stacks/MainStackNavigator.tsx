@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Local imports
 import BottomTabNavigator from "../tabs/BottomTabNavigator";
 import CreatePaymentScreen from "../../screens/auth/CreatePaymentScreen";
+import PaymentCheckScreen from "../../screens/auth/PaymentCheckScreen";
+import PinPadScreen from "../../screens/unauth/PinPadScreen";
 import { MainStackParamList } from "./MainStackParamList";
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -18,7 +20,14 @@ const MainStackNavigator = () => {
       <MainStack.Screen
         name="CreatePayment"
         component={CreatePaymentScreen}
-        // options={{headerShown: false}}
+      />
+      <MainStack.Screen
+        name="PaymentCheck"
+        component={PaymentCheckScreen}
+      />
+      <MainStack.Screen
+        name="PinPad"
+        component={PinPadScreen}
       />
     </MainStack.Navigator>
   );

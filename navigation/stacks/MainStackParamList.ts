@@ -8,6 +8,8 @@ export type MainStackParamList = {
   Profile: undefined;
   //Bottom Tab End
   CreatePayment: undefined;
+  PaymentCheck: undefined;
+  PinPad: undefined;
 };
 
 export type MainStackNavProps<T extends keyof MainStackParamList> = {

@@ -15,7 +15,7 @@ import HomeNews from "../../components/HomeNews";
 
 const horizontalData = [
   "SecureTAC",
-  "Transfer",
+  "New Transfer",
   "JOMPay",
   "Top Up",
 ]
@@ -28,7 +28,7 @@ const HomeScreen: React.FC<MainStackNavProps<"Home">> = ({ navigation }) => {
       case "SecureTAC": {
         break;
       }
-      case "Transfer": {
+      case "New Transfer": {
         navigation.push("CreatePayment")
         break;
       }
