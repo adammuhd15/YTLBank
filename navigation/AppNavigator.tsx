@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 // Local imports
-import LoginScreen from "../screens/unauth/LoginScreen";
+import PinPadScreen from "../screens/unauth/PinPadScreen";
 import ProfileScreen from "../screens/auth/ProfileScreen";
 import { RootState } from "../redux/store";
 
@@ -15,7 +15,7 @@ const AppNavigator = () => {
           <ProfileScreen />
         )
         : (
-          <LoginScreen />
+          <PinPadScreen />
         )
       }
     </>

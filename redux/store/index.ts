@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 
 // Local imports
 import navigationReducer from "../slice/navigationReducer";
+import biometricsSlice from "../slice/biometricsReducer";
 
 export const store = configureStore({
   reducer: {
     navigation: navigationReducer,
+    biometrics: biometricsSlice,
     // main: mainReducer,
   },
 });
