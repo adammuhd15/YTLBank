@@ -9,6 +9,7 @@ import {
   TextStyle,
   NativeSyntheticEvent,
   TextInputFocusEventData,
+  KeyboardTypeOptions,
 } from "react-native";
 
 // Local imports
@@ -23,6 +24,7 @@ interface TextFieldProps {
   onFocus?: ((e: NativeSyntheticEvent<TextInputFocusEventData>) => void) | undefined;
   secureTextEntry?: boolean | undefined;
   onChangeText?: ((text: string) => void) | undefined;
+  keyboardType?: KeyboardTypeOptions | undefined;
 }
 
 const TextField: React.FC<TextFieldProps> = ({
@@ -34,6 +36,7 @@ const TextField: React.FC<TextFieldProps> = ({
     onFocus,
     secureTextEntry,
     onChangeText,
+    keyboardType,
 }) => {
   return (
     <View>
@@ -45,6 +48,7 @@ const TextField: React.FC<TextFieldProps> = ({
         onFocus={onFocus}
         secureTextEntry={secureTextEntry}
         onChangeText={onChangeText}
+        keyboardType={keyboardType}
       />
       {showLength && (
         <Text style={[textFieldStyle.lengthText, { color: value.length < 50 ? Colors.black : Colors.error }]}>{value.length}/{maxLength}</Text>
@@ -55,7 +59,6 @@ const TextField: React.FC<TextFieldProps> = ({
 
 const textFieldStyle = StyleSheet.create({
   container: {
-    width: (0.4 * Dimensions.get("window").width),
     height: 40,
     borderWidth: 2,
     borderColor: Colors.black,
