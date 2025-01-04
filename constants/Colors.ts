@@ -4,7 +4,8 @@ export const Colors: ColorTypes = {
   green: "#1FD655",
   blue: "#29C5F6",
   pink: "#B33B72",
-  error: "#F55D42"
+  error: "#F55D42",
+  grey: "#ADADAD",
 };
 
 type ColorTypes = {
@@ -14,4 +15,5 @@ type ColorTypes = {
   blue: string;
   pink: string;
   error: string;
+  grey: string;
 };
