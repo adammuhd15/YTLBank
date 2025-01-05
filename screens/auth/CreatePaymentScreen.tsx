@@ -83,7 +83,7 @@ const CreatePaymentScreen: React.FC<MainStackNavProps<"CreatePayment">> = ({ nav
           value={amount}
           label="Amount"
           onChangeText={callbackAmount}
-          keyboardType="number-pad"
+          keyboardType="decimal-pad"
           errorMessage={amountRegex.test(amount) ? "" : "Format must be in 9.99"}
         />
         <TextField
