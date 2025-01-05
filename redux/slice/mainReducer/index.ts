@@ -6,13 +6,14 @@ import { MainReducerProps } from "./MainReducerProps";
 
 // Define the initial state using that type
 const initialState: MainReducerProps = {
-  accountNumber: "",
+  accountNumber: "2122 9899 2122",
   bankName: "TOUCH N GO E WALLET",
   transferType: "Fund Transfer",
   transferMode: "DuitNow Transfer",
-  amount: "",
+  amount: "21.22",
   recipientReference: "DuitNow Bank Transfer",
   paymentDetails: "",
+  paymentBiometricsChecking: false,
 }
 
 export const mainSlice = createSlice({
@@ -49,7 +50,10 @@ export const mainSlice = createSlice({
       state.amount = initialState.amount;
       state.recipientReference = initialState.recipientReference;
       state.paymentDetails = initialState.paymentDetails;
-    }
+    },
+    setPaymentBiometricsChecking: (state, action) => {
+      state.paymentBiometricsChecking = action.payload;
+    },
   },
 })
 
@@ -62,6 +66,7 @@ export const {
   setRecipientReference,
   setPaymentDetails,
   resetForm,
+  setPaymentBiometricsChecking,
 } = mainSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type

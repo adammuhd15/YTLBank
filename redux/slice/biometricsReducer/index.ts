@@ -6,7 +6,7 @@ import { BiometricsReducerProps } from "./BiometricsReducerProps";
 
 // Define the initial state using that type
 const initialState: BiometricsReducerProps = {
-  isBiometricSupported: true,
+  isBiometricSupported: false,
   biometricsCode: [],
   isBioLoading: false,
 }

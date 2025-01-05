@@ -19,7 +19,7 @@ const BottomTabNavigator = () => {
           if (route.name === "Home") {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Profile") {
-            iconName = focused ? "search" : "search-outline";
+            iconName = focused ? "person-circle" : "person-circle-outline";
           }
 
           // You can return any component that you like here!

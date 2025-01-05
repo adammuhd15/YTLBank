@@ -22,12 +22,15 @@ import DialPad from "../../components/DialPad";
 import BiometricsButton from "../../components/BiometricsButton";
 import { pinLength } from "../../constants/DialPadDimensions";
 import { Colors } from "../../constants/Colors";
+import { MainStackNavProps } from "../../navigation/stacks/MainStackParamList";
 
-function PinPadScreen() {
+const PinPadScreen: React.FC<MainStackNavProps<"PinPad">> = ({ navigation }) => {
   const dispatch = useDispatch<AppDispatch>();
   const isBiometricSupported = useSelector<RootState, boolean>((state) => state.biometrics.isBiometricSupported);
   const biometricsCode = useSelector<RootState, number[]>((state) => state.biometrics.biometricsCode);
   const isBioLoading = useSelector<RootState, boolean>((state) => state.biometrics.isBioLoading);
+  // Main
+  const paymentBiometricsChecking = useSelector<RootState, boolean>((state) => state.main.paymentBiometricsChecking);
 
   const handleAuth = async () => {
     const success = await handleBiometricAuth();
@@ -35,8 +38,12 @@ function PinPadScreen() {
       dispatch(setIsBioLoading(false));
     }
     if (success) {
-      dispatch(setBiometricsCode([]));
-      dispatch(setIsAuth(true));
+      if (paymentBiometricsChecking) {
+        handleConfirmPayment();
+      } else {
+        dispatch(setBiometricsCode([]));
+        dispatch(setIsAuth(true));
+      }
     } else {
       Alert.alert(
         `${Platform.OS === "ios" ? "Face ID" : "Fingerprint"} Error`,
@@ -52,7 +59,15 @@ function PinPadScreen() {
   }
 
   const authenticateUser = () => {
-    dispatch(setIsAuth(true));
+    if (paymentBiometricsChecking) {
+      handleConfirmPayment();
+    } else {
+      dispatch(setIsAuth(true));
+    }
+  }
+
+  const handleConfirmPayment = () => {
+    navigation.push("SuccessPayment");
   }
 
   const onTapPinPad = useCallback((item: number | string) => {

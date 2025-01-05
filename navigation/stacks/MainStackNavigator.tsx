@@ -5,6 +5,7 @@ import BottomTabNavigator from "../tabs/BottomTabNavigator";
 import CreatePaymentScreen from "../../screens/auth/CreatePaymentScreen";
 import PaymentCheckScreen from "../../screens/auth/PaymentCheckScreen";
 import PinPadScreen from "../../screens/unauth/PinPadScreen";
+import SuccessPaymentScreen from "../../screens/auth/SuccessPaymentScreen";
 import { MainStackParamList } from "./MainStackParamList";
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -28,6 +29,10 @@ const MainStackNavigator = () => {
       <MainStack.Screen
         name="PinPad"
         component={PinPadScreen}
+      />
+      <MainStack.Screen
+        name="SuccessPayment"
+        component={SuccessPaymentScreen}
       />
     </MainStack.Navigator>
   );

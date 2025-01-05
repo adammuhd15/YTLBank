@@ -10,6 +10,7 @@ export type MainStackParamList = {
   CreatePayment: undefined;
   PaymentCheck: undefined;
   PinPad: undefined;
+  SuccessPayment: undefined;
 };
 
 export type MainStackNavProps<T extends keyof MainStackParamList> = {
