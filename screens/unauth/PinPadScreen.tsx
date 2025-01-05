@@ -32,6 +32,7 @@ const PinPadScreen: React.FC<MainStackNavProps<"PinPad">> = ({ navigation }) => 
   // Main
   const paymentBiometricsChecking = useSelector<RootState, boolean>((state) => state.main.paymentBiometricsChecking);
 
+  // Function
   const handleAuth = async () => {
     const success = await handleBiometricAuth();
     if (isBioLoading) {
@@ -41,7 +42,6 @@ const PinPadScreen: React.FC<MainStackNavProps<"PinPad">> = ({ navigation }) => 
       if (paymentBiometricsChecking) {
         handleConfirmPayment();
       } else {
-        dispatch(setBiometricsCode([]));
         dispatch(setIsAuth(true));
       }
     } else {
@@ -70,6 +70,7 @@ const PinPadScreen: React.FC<MainStackNavProps<"PinPad">> = ({ navigation }) => 
     navigation.push("SuccessPayment");
   }
 
+  // Callback memoized
   const onTapPinPad = useCallback((item: number | string) => {
     if (item === "del") {
       if (biometricsCode.length === 0) return
@@ -82,6 +83,7 @@ const PinPadScreen: React.FC<MainStackNavProps<"PinPad">> = ({ navigation }) => 
     }
   }, [biometricsCode])
 
+  // Lifecycle
   useEffect(() => {
     if (isBiometricSupported) {
       handleAuth();

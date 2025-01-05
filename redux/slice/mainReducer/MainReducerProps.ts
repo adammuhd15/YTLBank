@@ -7,5 +7,6 @@ export interface MainReducerProps {
   amount: string,
   recipientReference: string,
   paymentDetails: string,
+  isPaymentError: boolean,
   paymentBiometricsChecking: boolean,
 }

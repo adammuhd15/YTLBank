@@ -3,6 +3,7 @@ import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent, StyleProp, V
 
 // Local imports
 import { Colors } from "../../constants/Colors";
+import { useCountRenders } from "../../utils/useCountRenders";
 
 interface ButtonProps {
   text: string;
@@ -17,6 +18,7 @@ const Button: React.FC<ButtonProps> = ({
   containerStyle,
   textStyle,
 }) => {
+  // useCountRenders({ component: `${text} Button` })
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -42,4 +44,4 @@ const buttonStyle = StyleSheet.create({
   },
 })
 
-export default Button;
+export default React.memo(Button);

@@ -16,23 +16,27 @@ const MainStackNavigator = () => {
       <MainStack.Screen
         name="MainStack"
         component={BottomTabNavigator}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <MainStack.Screen
         name="CreatePayment"
         component={CreatePaymentScreen}
+        options={{ title: "New Payee" }}
       />
       <MainStack.Screen
         name="PaymentCheck"
         component={PaymentCheckScreen}
+        options={{ title: "Confirmation" }}
       />
       <MainStack.Screen
         name="PinPad"
         component={PinPadScreen}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
       <MainStack.Screen
         name="SuccessPayment"
         component={SuccessPaymentScreen}
+        options={{ title: "Transfer", headerBackVisible: false, gestureEnabled: false }}
       />
     </MainStack.Navigator>
   );

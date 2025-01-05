@@ -17,11 +17,13 @@ const PaymentCheckScreen: React.FC<MainStackNavProps<"PaymentCheck">> = ({ navig
   const safeInsets = useSafeAreaInsets();
   const dispatch = useDispatch();
 
+  // Callback memoized
   const handleBiometricsChecking = () => {
     dispatch(setPaymentBiometricsChecking(true));
     navigation.navigate("PinPad");
   }
 
+  // Lifecycle
   useEffect(() => {
     return () => { // componentWillUnmount
       /**

@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import React, { useCallback, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // Local imports
 import { AppDispatch, RootState } from "../../redux/store";
 import TextField from "../../components/TextField";
 import Button from "../../components/Button";
-import { Colors } from "../../constants/Colors";
 import { MainStackNavProps } from "../../navigation/stacks/MainStackParamList";
 import KeyboardAvoidingScrollView from "../../components/KeyboardAvoidingScrollView";
 import {
@@ -31,57 +30,70 @@ const CreatePaymentScreen: React.FC<MainStackNavProps<"CreatePayment">> = ({ nav
   const amount = useSelector<RootState, string>((state) => state.main.amount);
   const recipientReference = useSelector<RootState, string>((state) => state.main.recipientReference);
   const paymentDetails = useSelector<RootState, string>((state) => state.main.paymentDetails);
+
+  // Callback Memoized
+  const callbackAccountNumber = useCallback((text: string) => dispatch(setAccountNumber(text)), [accountNumber])
+  const callbackBankName = useCallback((text: string) => dispatch(setBankName(text)), [bankName])
+  const callbackTransferType = useCallback((text: string) => dispatch(setTransferType(text)), [transferType])
+  const callbackTransferMode = useCallback((text: string) => dispatch(setTransferMode(text)), [transferMode])
+  const callbackAmount = useCallback((text: string) => dispatch(setAmount(text)), [amount])
+  const callbackRecipientReference = useCallback((text: string) => dispatch(setRecipientReference(text)), [recipientReference])
+  const callbackPaymentDetails = useCallback((text: string) => dispatch(setPaymentDetails(text)), [paymentDetails])
+  const callbackNextButton = useCallback(() => navigation.push("PaymentCheck"), [])
+
+  // Lifecycle
   useEffect(() => {
     return () => {
       dispatch(resetForm());
     }
   }, [])
+
   return (
     <KeyboardAvoidingScrollView>
-      <View style={{ padding: 20, gap: 20 }}>
+      <View style={createPaymentStyles.subContainer}>
         <TextField
           value={accountNumber}
           label="Account Number"
-          onChangeText={(text) => dispatch(setAccountNumber(text))}
+          onChangeText={callbackAccountNumber}
           keyboardType="number-pad"
         />
         <TextField
           value={bankName}
           label="Bank Name"
-          onChangeText={(text) => dispatch(setBankName(text))}
+          onChangeText={callbackBankName}
         />
         <TextField
           value={transferType}
           label="Transfer Type"
-          onChangeText={(text) => dispatch(setTransferType(text))}
+          onChangeText={callbackTransferType}
         />
         <TextField
           value={transferMode}
           label="Transfer Mode"
-          onChangeText={(text) => dispatch(setTransferMode(text))}
+          onChangeText={callbackTransferMode}
         />
         <TextField
           value={amount}
           label="Amount"
-          onChangeText={(text) => dispatch(setAmount(text))}
+          onChangeText={callbackAmount}
           keyboardType="number-pad"
         />
         <TextField
           value={recipientReference}
           label="Enter recipient reference"
-          onChangeText={(text) => dispatch(setRecipientReference(text))}
+          onChangeText={callbackRecipientReference}
           maxLength={50}
           showLength
         />
         <TextField
           value={paymentDetails}
           label="Enter payment details (Optional)"
-          onChangeText={(text) => dispatch(setPaymentDetails(text))}
+          onChangeText={callbackPaymentDetails}
           showLength
         />
         <Button
           text="Next"
-          onPress={() => navigation.push("PaymentCheck")}
+          onPress={callbackNextButton}
         />
       </View>
     </KeyboardAvoidingScrollView>
@@ -89,3 +101,10 @@ const CreatePaymentScreen: React.FC<MainStackNavProps<"CreatePayment">> = ({ nav
 }
 
 export default CreatePaymentScreen;
+
+const createPaymentStyles = StyleSheet.create({
+  subContainer: {
+    padding: 20,
+    gap: 20,
+  },
+});

@@ -13,6 +13,7 @@ const initialState: MainReducerProps = {
   amount: "21.22",
   recipientReference: "DuitNow Bank Transfer",
   paymentDetails: "",
+  isPaymentError: false,
   paymentBiometricsChecking: false,
 }
 
@@ -50,6 +51,11 @@ export const mainSlice = createSlice({
       state.amount = initialState.amount;
       state.recipientReference = initialState.recipientReference;
       state.paymentDetails = initialState.paymentDetails;
+      state.isPaymentError = initialState.isPaymentError;
+      state.paymentBiometricsChecking = initialState.paymentBiometricsChecking;
+    },
+    setIsPaymentError: (state, action) => {
+      state.isPaymentError = action.payload;
     },
     setPaymentBiometricsChecking: (state, action) => {
       state.paymentBiometricsChecking = action.payload;

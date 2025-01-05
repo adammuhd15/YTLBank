@@ -14,6 +14,7 @@ import {
 
 // Local imports
 import { Colors } from "../../constants/Colors";
+import { useCountRenders } from "../../utils/useCountRenders";
 
 interface TextFieldProps {
   value: string;
@@ -38,6 +39,7 @@ const TextField: React.FC<TextFieldProps> = ({
     onChangeText,
     keyboardType,
 }) => {
+  // useCountRenders({ component: `${label} Field` });
   return (
     <View>
       <Text>{label}</Text>
@@ -71,4 +73,4 @@ const textFieldStyle = StyleSheet.create({
   }
 })
 
-export default TextField;
+export default React.memo(TextField);
