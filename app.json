@@ -13,6 +13,9 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "entitlements": {
+        "com.apple.developer.networking.wifi-info": true
+      },
       "supportsTablet": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app uses the camera to scan your face to authenticate."

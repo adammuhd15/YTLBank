@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -7,6 +7,13 @@ import { useDispatch } from "react-redux";
 
 // Local imports
 import { AppDispatch } from "../../redux/store";
+import {
+  resetMyAccount,
+  setAccountNumber,
+  setAccountType,
+  setBalance,
+  setBankName,
+} from "../../redux/slice/myAccountReducer";
 import { Colors } from "../../constants/Colors";
 import { MainStackNavProps } from "../../navigation/stacks/MainStackParamList";
 import HomeAccountBalance from "../../components/HomeAccountBalance";
@@ -43,6 +50,17 @@ const HomeScreen: React.FC<MainStackNavProps<"Home">> = ({ navigation }) => {
       }
     }
   }
+
+  useEffect(() => {
+    // Simulate API below
+    dispatch(setAccountNumber("8912 2172 1223"));
+    dispatch(setAccountType("iJimat Account"));
+    dispatch(setBalance(323.69));
+    dispatch(setBankName("YTL Bank"));
+    return () => { // componentWillUnmount
+      dispatch(resetMyAccount());
+    }
+  }, [])
 
   return (
     <ScrollView style={{ backgroundColor: Colors.white }}>

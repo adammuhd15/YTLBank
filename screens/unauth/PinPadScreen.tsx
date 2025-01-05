@@ -7,6 +7,7 @@ import {
   StyleSheet
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import NetInfo from "@react-native-community/netinfo";
 
 // Local imports
 import { handleBiometricAuth } from "../../utils/LocalAuthFunc";
@@ -23,12 +24,16 @@ import BiometricsButton from "../../components/BiometricsButton";
 import { pinLength } from "../../constants/DialPadDimensions";
 import { Colors } from "../../constants/Colors";
 import { MainStackNavProps } from "../../navigation/stacks/MainStackParamList";
+import { setBalance } from "../../redux/slice/myAccountReducer";
 
 const PinPadScreen: React.FC<MainStackNavProps<"PinPad">> = ({ navigation }) => {
   const dispatch = useDispatch<AppDispatch>();
   const isBiometricSupported = useSelector<RootState, boolean>((state) => state.biometrics.isBiometricSupported);
   const biometricsCode = useSelector<RootState, number[]>((state) => state.biometrics.biometricsCode);
   const isBioLoading = useSelector<RootState, boolean>((state) => state.biometrics.isBioLoading);
+  // Payment
+  const balance = useSelector<RootState, number>((state) => state.myAccount.balance);
+  const amount = useSelector<RootState, string>((state) => state.main.amount);
   // Main
   const paymentBiometricsChecking = useSelector<RootState, boolean>((state) => state.main.paymentBiometricsChecking);
 
@@ -42,7 +47,7 @@ const PinPadScreen: React.FC<MainStackNavProps<"PinPad">> = ({ navigation }) => 
       if (paymentBiometricsChecking) {
         handleConfirmPayment();
       } else {
-        dispatch(setIsAuth(true));
+        checkInternetConnection();
       }
     } else {
       Alert.alert(
@@ -62,12 +67,28 @@ const PinPadScreen: React.FC<MainStackNavProps<"PinPad">> = ({ navigation }) => 
     if (paymentBiometricsChecking) {
       handleConfirmPayment();
     } else {
-      dispatch(setIsAuth(true));
+      checkInternetConnection();
     }
   }
 
   const handleConfirmPayment = () => {
+    const floatAmount: number = parseFloat(amount);
+    dispatch(setBalance(balance - floatAmount));
     navigation.push("SuccessPayment");
+  }
+
+  const checkInternetConnection = () => {
+    NetInfo.fetch()
+    .then(state => {
+      if (state.isConnected) {
+        dispatch(setIsAuth(true));
+      } else {
+        Alert.alert("Connection error", "Please connect to a stable internet connection.");
+      }
+    })
+    .catch((_) => {
+      Alert.alert("Connection error", "Please connect to a stable internet connection.")
+    })
   }
 
   // Callback memoized

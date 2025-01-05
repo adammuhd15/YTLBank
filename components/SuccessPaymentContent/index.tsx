@@ -9,6 +9,8 @@ import { Colors } from "../../constants/Colors";
 
 const SuccessPaymentContent = () => {
   const isPaymentError = useSelector<RootState, boolean>((state) => state.main.isPaymentError);
+  const amount = useSelector<RootState, string>((state) => state.main.amount);
+  const paymentErrorMessage = useSelector<RootState, string>((state) => state.main.paymentErrorMessage);
   const componentColor: string = isPaymentError ? Colors.error : Colors.green
   return (
     <View
@@ -29,6 +31,15 @@ const SuccessPaymentContent = () => {
           "You have transferred successfully to your recipient. If you made a mistake, please contact our support team."
         }
       </Text>
+      {!isPaymentError ?
+        <Text style={successPaymentStyles.lightTitle}>
+          {`Transfer Amount: RM ${amount}`}
+        </Text>
+        :
+        <Text style={successPaymentStyles.lightTitle}>
+          {paymentErrorMessage}
+        </Text>
+      }
     </View>
   );
 }

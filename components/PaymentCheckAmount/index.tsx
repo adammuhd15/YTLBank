@@ -11,7 +11,7 @@ const PaymentCheckAmount = () => {
   return (
     <View style={paymentCheckStyle.marginVertical50}>
       <Text style={paymentCheckStyle.mediumTitle}>Amount</Text>
-      <Text style={[paymentCheckStyle.boldTitle, paymentCheckStyle.selfCenter]}>{`RM ${amount}`}</Text>
+      <Text style={[paymentCheckStyle.boldTitle, paymentCheckStyle.selfCenter]}>{`RM ${parseFloat(amount).toFixed(2)}`}</Text>
     </View>
   );
 }

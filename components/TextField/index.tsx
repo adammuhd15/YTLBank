@@ -26,6 +26,7 @@ interface TextFieldProps {
   secureTextEntry?: boolean | undefined;
   onChangeText?: ((text: string) => void) | undefined;
   keyboardType?: KeyboardTypeOptions | undefined;
+  errorMessage?: string;
 }
 
 const TextField: React.FC<TextFieldProps> = ({
@@ -38,6 +39,7 @@ const TextField: React.FC<TextFieldProps> = ({
     secureTextEntry,
     onChangeText,
     keyboardType,
+    errorMessage = "",
 }) => {
   // useCountRenders({ component: `${label} Field` });
   return (
@@ -53,7 +55,10 @@ const TextField: React.FC<TextFieldProps> = ({
         keyboardType={keyboardType}
       />
       {showLength && (
-        <Text style={[textFieldStyle.lengthText, { color: value.length < 50 ? Colors.black : Colors.error }]}>{value.length}/{maxLength}</Text>
+        <Text style={[textFieldStyle.lengthText, { color: value.length < maxLength ? Colors.black : Colors.error }]}>{value.length}/{maxLength}</Text>
+      )}
+      {errorMessage && (
+        <Text style={textFieldStyle.errorText}>{errorMessage}</Text>
       )}
     </View>
   )
@@ -70,6 +75,10 @@ const textFieldStyle = StyleSheet.create({
   },
   lengthText: {
     textAlign: "right"
+  },
+  errorText: {
+    textAlign: "right",
+    color: Colors.error,
   }
 })
 

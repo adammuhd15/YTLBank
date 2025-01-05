@@ -1,21 +1,34 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   View,
   Text,
   StyleSheet,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 // Local imports
 import { Colors } from "../../constants/Colors";
+import { RootState } from "../../redux/store";
 
 const HomeAccountBalance = () => {
+  // State
+  const accountNumber = useSelector<RootState, string>((state) => state.myAccount.accountNumber);
+  const accountType = useSelector<RootState, string>((state) => state.myAccount.accountType);
+  const balance = useSelector<RootState, number>((state) => state.myAccount.balance);
+
+  // memo
+  const displayBalance = useMemo(() => {
+    let MYR = new Intl.NumberFormat().format(balance);
+    return `RM ${parseFloat(MYR).toFixed(2)}`
+  }, [balance])
+
   return (
     <View
       style={accBalanceStyle.container}
     >
-      <Text style={accBalanceStyle.accountType}>iJimat Account</Text>
-      <Text style={accBalanceStyle.accountNumber}>0120 7827 1222</Text>
-      <Text style={accBalanceStyle.accountBalance}>RM 34,292.22</Text>
+      <Text style={accBalanceStyle.accountType}>{accountType}</Text>
+      <Text style={accBalanceStyle.accountNumber}>{accountNumber}</Text>
+      <Text style={accBalanceStyle.accountBalance}>{displayBalance}</Text>
     </View>
   );
 }

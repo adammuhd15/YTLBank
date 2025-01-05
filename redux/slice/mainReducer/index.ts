@@ -10,10 +10,11 @@ const initialState: MainReducerProps = {
   bankName: "TOUCH N GO E WALLET",
   transferType: "Fund Transfer",
   transferMode: "DuitNow Transfer",
-  amount: "21.22",
+  amount: "",
   recipientReference: "DuitNow Bank Transfer",
   paymentDetails: "",
   isPaymentError: false,
+  paymentErrorMessage: "",
   paymentBiometricsChecking: false,
 }
 
@@ -52,10 +53,14 @@ export const mainSlice = createSlice({
       state.recipientReference = initialState.recipientReference;
       state.paymentDetails = initialState.paymentDetails;
       state.isPaymentError = initialState.isPaymentError;
+      state.paymentErrorMessage = initialState.paymentErrorMessage;
       state.paymentBiometricsChecking = initialState.paymentBiometricsChecking;
     },
     setIsPaymentError: (state, action) => {
       state.isPaymentError = action.payload;
+    },
+    setPaymentErrorMessage: (state, action) => {
+      state.paymentErrorMessage = action.payload;
     },
     setPaymentBiometricsChecking: (state, action) => {
       state.paymentBiometricsChecking = action.payload;
@@ -72,6 +77,8 @@ export const {
   setRecipientReference,
   setPaymentDetails,
   resetForm,
+  setIsPaymentError,
+  setPaymentErrorMessage,
   setPaymentBiometricsChecking,
 } = mainSlice.actions
 

@@ -20,6 +20,8 @@ import {
 } from "../../redux/slice/mainReducer";
 
 const CreatePaymentScreen: React.FC<MainStackNavProps<"CreatePayment">> = ({ navigation }) => {
+  const amountRegex = /^\d+?\.\d{2}$/;
+  // const amountRegex = /^\$?(([1-9]\d{0,2}(,\d{3})*)|0)?\.\d{1,2}$/;
   // Dispatch
   const dispatch = useDispatch<AppDispatch>();
   // State
@@ -39,7 +41,12 @@ const CreatePaymentScreen: React.FC<MainStackNavProps<"CreatePayment">> = ({ nav
   const callbackAmount = useCallback((text: string) => dispatch(setAmount(text)), [amount])
   const callbackRecipientReference = useCallback((text: string) => dispatch(setRecipientReference(text)), [recipientReference])
   const callbackPaymentDetails = useCallback((text: string) => dispatch(setPaymentDetails(text)), [paymentDetails])
-  const callbackNextButton = useCallback(() => navigation.push("PaymentCheck"), [])
+  const callbackNextButton = useCallback(() => {
+    const checkedVerified = amountRegex.test(amount);
+    if (checkedVerified) {
+      navigation.push("PaymentCheck")
+    }
+  }, [amount])
 
   // Lifecycle
   useEffect(() => {
@@ -77,6 +84,7 @@ const CreatePaymentScreen: React.FC<MainStackNavProps<"CreatePayment">> = ({ nav
           label="Amount"
           onChangeText={callbackAmount}
           keyboardType="number-pad"
+          errorMessage={amountRegex.test(amount) ? "" : "Format must be in 9.99"}
         />
         <TextField
           value={recipientReference}
@@ -94,6 +102,7 @@ const CreatePaymentScreen: React.FC<MainStackNavProps<"CreatePayment">> = ({ nav
         <Button
           text="Next"
           onPress={callbackNextButton}
+          disabled={!amountRegex.test(amount)}
         />
       </View>
     </KeyboardAvoidingScrollView>

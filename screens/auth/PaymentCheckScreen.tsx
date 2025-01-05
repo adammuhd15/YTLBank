@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import NetInfo from "@react-native-community/netinfo";
 
 // Local imports
 import Button from "../../components/Button";
@@ -10,17 +11,50 @@ import HomeAccountBalance from "../../components/HomeAccountBalance";
 import PaymentCheckFirstTitle from "../../components/PaymentCheckFirstTitle";
 import PaymentCheckAmount from "../../components/PaymentCheckAmount";
 import PaymentCheckRecipients from "../../components/PaymentCheckRecipients";
-import { setPaymentBiometricsChecking } from "../../redux/slice/mainReducer";
+import {
+  setPaymentBiometricsChecking,
+  setIsPaymentError,
+  setPaymentErrorMessage
+} from "../../redux/slice/mainReducer";
 import { Colors } from "../../constants/Colors";
+import { RootState } from "../../redux/store";
 
 const PaymentCheckScreen: React.FC<MainStackNavProps<"PaymentCheck">> = ({ navigation }) => {
   const safeInsets = useSafeAreaInsets();
   const dispatch = useDispatch();
+  const balance = useSelector<RootState, number>((state) => state.myAccount.balance);
+  const amount = useSelector<RootState, string>((state) => state.main.amount);
 
-  // Callback memoized
-  const handleBiometricsChecking = () => {
-    dispatch(setPaymentBiometricsChecking(true));
-    navigation.navigate("PinPad");
+  /**
+   * Simulationg API
+   * We are checking if amount is sufficient
+   * Check if amount + RM 20 is equal or less than current balance amount
+   * Check internet connection?
+   */
+  const handleSimulateAPI = () => {
+    NetInfo.fetch()
+    .then(state => {
+      if (state.isConnected) {
+        const numberAmount: number = parseFloat(amount);
+        if (balance >= (numberAmount + 20)) {
+          dispatch(setPaymentBiometricsChecking(true));
+          navigation.navigate("PinPad");
+        } else {
+          dispatch(setIsPaymentError(true));
+          dispatch(setPaymentErrorMessage("Insuffient Fund"));
+          navigation.navigate("SuccessPayment");
+        }
+      } else {
+        dispatch(setIsPaymentError(true));
+        dispatch(setPaymentErrorMessage("No Internet Connection"));
+        navigation.navigate("SuccessPayment");
+      }
+    })
+    .catch((_) => {
+      dispatch(setIsPaymentError(true));
+      dispatch(setPaymentErrorMessage("Internet Error"));
+      navigation.navigate("SuccessPayment");
+    })
   }
 
   // Lifecycle
@@ -46,7 +80,7 @@ const PaymentCheckScreen: React.FC<MainStackNavProps<"PaymentCheck">> = ({ navig
       </ScrollView>
       <Button
         text="Transfer Now"
-        onPress={handleBiometricsChecking}
+        onPress={handleSimulateAPI}
         containerStyle={{ marginBottom: safeInsets.bottom }}
       />
     </View>
